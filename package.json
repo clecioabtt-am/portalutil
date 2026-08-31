@@ -1,0 +1,12 @@
+{
+  "name": "portal-util",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute portal-util-db --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute portal-util-db --remote --file=./schema.sql"
+  },
+  "devDependencies": {"wrangler": "^4.35.0"}
+}
