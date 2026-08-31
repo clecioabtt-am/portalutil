@@ -64,3 +64,10 @@ A exportação direta para PDF usa html2canvas + jsPDF. O organizador de PDF usa
 
 ### Banco existente
 O banco atual não precisa ser recriado. O arquivo `schema.sql` representa uma instalação nova completa. Para banco já existente, use `migration-existing-db.sql` apenas para os índices; a coluna `role` já foi criada no ambiente atual.
+
+
+## Atualização visual V3
+- Documentos com 4–5 modelos profissionais e exportação Word/PDF preservando o layout.
+- Tabelas de orçamento com larguras fixas e colunas numéricas centralizadas.
+- Assinaturas sempre centralizadas sob a linha.
+- Painéis de resultados com estilos Corporativo, Esmeralda e Executivo/Premium.
