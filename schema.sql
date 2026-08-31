@@ -1,12 +1,15 @@
 PRAGMA foreign_keys = ON;
+
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE COLLATE NOCASE,
   password_hash TEXT NOT NULL,
   plan TEXT NOT NULL DEFAULT 'free' CHECK(plan IN ('free','premium')),
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin'))
 );
+
 CREATE TABLE IF NOT EXISTS sessions (
   token TEXT PRIMARY KEY,
   user_id INTEGER NOT NULL,
@@ -14,6 +17,7 @@ CREATE TABLE IF NOT EXISTS sessions (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE IF NOT EXISTS favorites (
   user_id INTEGER NOT NULL,
   tool_id TEXT NOT NULL,
@@ -21,6 +25,7 @@ CREATE TABLE IF NOT EXISTS favorites (
   PRIMARY KEY(user_id, tool_id),
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE IF NOT EXISTS history (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
@@ -29,6 +34,7 @@ CREATE TABLE IF NOT EXISTS history (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE IF NOT EXISTS expenses (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
@@ -39,6 +45,7 @@ CREATE TABLE IF NOT EXISTS expenses (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE IF NOT EXISTS checklist_items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
@@ -47,5 +54,10 @@ CREATE TABLE IF NOT EXISTS checklist_items (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
 CREATE INDEX IF NOT EXISTS idx_history_user ON history(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_expenses_user ON expenses(user_id, expense_date DESC);
+CREATE INDEX IF NOT EXISTS idx_users_plan ON users(plan);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);

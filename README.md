@@ -47,3 +47,20 @@ A versão 1.0 não realiza cobrança automática. O botão Premium informa isso 
 
 ## Segurança
 Senhas são derivadas com PBKDF2-SHA-256, salt aleatório e 120.000 iterações. Para uma operação comercial completa, adicione também recuperação de senha, verificação de e-mail, rate limiting e política de sessões/dispositivos.
+
+## Atualização de documentos profissionais
+
+Esta versão acrescenta:
+- 4 modelos de currículo, foto opcional e exportação Word/PDF;
+- recibos com logo opcional, 4 modelos e exportação Word/PDF;
+- orçamentos com múltiplos itens, logo, 4 modelos e exportação Word/PDF;
+- declaração com modelos e exportação Word/PDF;
+- resultados visuais aprimorados em juros, divisor e empréstimo;
+- Organizador de PDF: múltiplos arquivos, reordenação, seleção/exclusão de páginas e geração de um único PDF;
+- processamento dos PDFs feito no navegador, sem upload para o Worker/D1.
+
+### Bibliotecas de navegador
+A exportação direta para PDF usa html2canvas + jsPDF. O organizador de PDF usa pdf-lib. Elas são carregadas no navegador via jsDelivr, sem API paga.
+
+### Banco existente
+O banco atual não precisa ser recriado. O arquivo `schema.sql` representa uma instalação nova completa. Para banco já existente, use `migration-existing-db.sql` apenas para os índices; a coluna `role` já foi criada no ambiente atual.
